@@ -1,0 +1,28 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Theme.GreenIsland" parent="Theme.MaterialComponents.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorBackgroundToolbar</item>
+        <item name="colorPrimaryDark">@color/colorBackgroundDark</item>
+        <item name="colorAccent">@color/colorBackgroundItem</item>
+    </style>
+
+    <style name="Theme.GreenIsland.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="Theme.SpiderTweet.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+        <item name="background">@color/colorBackgroundToolbar</item>
+    </style>
+
+    <style name="AlertDialog.AppCompat.GreenIsland" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:background">@color/white</item>
+        <item name="android:titleTextColor">@color/black</item>
+    </style>
+
+    <style name="Theme.SpiderTweet.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+    <style name="Theme.SpiderTweet.TabLayoutTheme" parent="ThemeOverlay.AppCompat.Light">
+        <item name="android:background">@color/colorBackgroundToolbar</item>
+    </style>
+</resources>

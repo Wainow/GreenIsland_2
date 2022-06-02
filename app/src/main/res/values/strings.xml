@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">GreenIsland</string>
+    <string name="tab_text_1">All users</string>
+    <string name="tab_text_2">Favorites</string>
+    <string name="dialog_title">Sort by</string>
+    <string name="default_base">EUR</string>
+    <string name="default_price">1.076433</string>
+    <string name="default_date">2022-05-31</string>
+    <string name="default_stock">BMD</string>
+</resources>
