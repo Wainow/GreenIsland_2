@@ -164,11 +164,15 @@ class ListViewModel @Inject constructor(
         viewModelScope.launch {
             _uiState.value = LatestStocksUiState.Loading()
             try {
+                val favorites = stockUseCase.getFavorites()
                 (if (byName) stockUseCase.sortByName(_currentValue.value, isAscending)
                 else stockUseCase.sortByValue(_currentValue.value, isAscending))
-                    .collect {
-                        _uiState.value = LatestStocksUiState.Success(it.toUi())
-                        _uiFavoriteState.value = LatestStocksUiState.Success(it.toUi().favorite())
+                    .collect { list ->
+                        val result = list.map { model ->
+                            model.toUi(favorites.any { it.name == model.name })
+                        }
+                        _uiState.value = LatestStocksUiState.Success(result)
+                        _uiFavoriteState.value = LatestStocksUiState.Success(result.favorite())
                     }
             } catch (e: Exception) {
                 _uiState.value = LatestStocksUiState.Error(e)
