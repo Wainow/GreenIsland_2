@@ -45,4 +45,6 @@ interface StockRepository {
      * @param stock нелюбимая акция
      */
     suspend fun deleteFavoriteStock(stock: StockModel)
+
+    suspend fun updateFavorites(stocks: List<StockModel>)
 }

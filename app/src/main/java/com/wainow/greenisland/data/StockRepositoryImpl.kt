@@ -9,6 +9,7 @@ import com.wainow.greenisland.data.entity.ResponseDto
 import com.wainow.greenisland.domain.StockRepository
 import com.wainow.greenisland.domain.entity.StockModel
 import com.wainow.greenisland.toFavoriteEntity
+import com.wainow.greenisland.toFavoriteModel
 import com.wainow.greenisland.toModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -46,4 +47,6 @@ class StockRepositoryImpl @Inject constructor(
         stockDao.delete(stock.toFavoriteEntity())
 
     override suspend fun getFavoriteStocks() = stockDao.getAllFavoriteStocks().toModel()
+
+    override suspend fun updateFavorites(stocks: List<StockModel>) = stockDao.update(stocks.toFavoriteModel())
 }

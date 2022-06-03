@@ -65,6 +65,8 @@ fun StockModel.toFavoriteEntity() = StockFavoriteEntity(
     currency = currency
 )
 
+fun List<StockModel>.toFavoriteModel() = map { it.toFavoriteEntity() }
+
 /**
  * Преобразование сущности БД в модель акции
  *

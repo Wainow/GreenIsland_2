@@ -10,7 +10,7 @@ package com.wainow.greenisland.domain.entity
  */
 data class StockModel(
     val name: String,
-    val value: Double,
+    var value: Double,
     val date: String,
-    val currency: String
+    var currency: String
 )

@@ -59,6 +59,8 @@ interface StockUseCase {
      * @param stock нелюбимая акция
      */
     suspend fun deleteFavorite(stock: StockModel)
+
+    suspend fun updateFavorites(stocks: List<StockModel>)
 }
 
 /**
@@ -108,4 +110,6 @@ class StockUseCaseImpl @Inject constructor(
             if (!isAscending) asReversed() else this
         }
     }
+
+    override suspend fun updateFavorites(stocks: List<StockModel>) = repository.updateFavorites(stocks)
 }

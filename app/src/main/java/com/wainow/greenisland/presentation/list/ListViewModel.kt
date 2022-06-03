@@ -104,10 +104,19 @@ class ListViewModel @Inject constructor(
                 _uiFavoriteState.value =
                     LatestStocksUiState.Success(favorites.toUi(isFavorite = true))
                 stockUseCase.getLatestStocks(baseValue).collect { list ->
-                    val result = list.map {
-                        val isFavorite = favorites.contains(it)
-                        it.toUi(isFavorite)
+                    val result = list.map { model ->
+                        if (favorites.any { it.name == model.name }) {
+                            favorites.find { it.name == model.name }?.apply {
+                                value = model.value
+                                currency = model.currency
+                            }
+                            model.toUi(true)
+                        } else {
+                            model.toUi(false)
+                        }
                     }
+                    stockUseCase.updateFavorites(favorites)
+                    _uiFavoriteState.value = LatestStocksUiState.Success(favorites.toUi(true))
                     _uiState.value = LatestStocksUiState.Success(result)
                 }
             } catch (e: Exception) {
