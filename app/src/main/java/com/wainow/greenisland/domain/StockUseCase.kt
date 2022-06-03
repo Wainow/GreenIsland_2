@@ -60,6 +60,11 @@ interface StockUseCase {
      */
     suspend fun deleteFavorite(stock: StockModel)
 
+    /**
+     * Обновление списка любимых акций
+     *
+     * @param stocks список любимых акций
+     */
     suspend fun updateFavorites(stocks: List<StockModel>)
 }
 
