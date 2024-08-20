@@ -7,7 +7,7 @@ import com.wainow.greenisland.data.api.MockedResults
 import com.wainow.greenisland.data.db.StockDao
 import com.wainow.greenisland.data.entity.ResponseDto
 import com.wainow.greenisland.domain.StockRepository
-import com.wainow.greenisland.domain.entity.StockModel
+import com.wainow.greenisland.domain.entity.Stock
 import com.wainow.greenisland.toFavoriteEntity
 import com.wainow.greenisland.toFavoriteModel
 import com.wainow.greenisland.toModel
@@ -26,12 +26,12 @@ class StockRepositoryImpl @Inject constructor(
     private val apiService: ApiService,
     private val stockDao: StockDao
 ) : StockRepository {
-    override suspend fun getLatestStocks(baseValue: String): Flow<List<StockModel>> =
+    override suspend fun getLatestStocks(baseValue: String): Flow<List<Stock>> =
         flow {
             emit(apiService.getStocks(baseValue).toModel())
         }
 
-    override suspend fun getMockStocks(baseValue: String): Flow<List<StockModel>> {
+    override suspend fun getMockStocks(baseValue: String): Flow<List<Stock>> {
         val type: Type = object : TypeToken<ResponseDto>() {}.type
         return flow {
             val response: ResponseDto =
@@ -40,13 +40,8 @@ class StockRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun saveFavoriteStock(stock: StockModel) =
-        stockDao.insert(stock.toFavoriteEntity())
-
-    override suspend fun deleteFavoriteStock(stock: StockModel) =
-        stockDao.delete(stock.toFavoriteEntity())
-
     override suspend fun getFavoriteStocks() = stockDao.getAllFavoriteStocks().toModel()
-
-    override suspend fun updateFavorites(stocks: List<StockModel>) = stockDao.update(stocks.toFavoriteModel())
+    override suspend fun saveFavoriteStock(stock: Stock) = stockDao.insert(stock.toFavoriteEntity())
+    override suspend fun deleteFavoriteStock(stock: Stock) = stockDao.delete(stock.toFavoriteEntity())
+    override suspend fun updateFavorites(stocks: List<Stock>) = stockDao.update(stocks.toFavoriteModel())
 }

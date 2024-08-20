@@ -8,9 +8,9 @@ package com.wainow.greenisland.domain.entity
  * @property date the current date
  * @property currency the currency of the stock
  */
-data class StockModel(
+data class Stock(
     val name: String,
-    var value: Double,
+    val value: Double,
     val date: String,
-    var currency: String
+    val currency: String
 )

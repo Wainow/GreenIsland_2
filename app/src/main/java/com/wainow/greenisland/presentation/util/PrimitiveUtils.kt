@@ -1,6 +1,6 @@
 package com.wainow.greenisland.presentation.util
 
-import com.wainow.greenisland.presentation.entity.StockUi
+import com.wainow.greenisland.presentation.entity.StockUI
 
 /**
  * File containing extension functions for primitives
@@ -11,4 +11,4 @@ import com.wainow.greenisland.presentation.entity.StockUi
  *
  * @return list of favorite stocks
  */
-fun List<StockUi>.favorite() = filter { it.isFavorite }
+fun List<StockUI>.favorite() = filter { it.isFavorite }

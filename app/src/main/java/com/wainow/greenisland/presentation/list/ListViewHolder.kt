@@ -3,11 +3,10 @@ package com.wainow.greenisland.presentation.list
 import android.graphics.Color
 import android.widget.ImageButton
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.wainow.greenisland.R
 import com.wainow.greenisland.databinding.StockItemBinding
-import com.wainow.greenisland.getColorIdFromPrice
-import com.wainow.greenisland.presentation.entity.StockUi
+import com.wainow.greenisland.getColorHEXFromPrice
+import com.wainow.greenisland.presentation.entity.StockUI
 
 /**
  * ViewHolder for the stock list
@@ -25,14 +24,14 @@ class ListViewHolder(
      *
      * @param stock The stock entity
      */
-    fun bind(stock: StockUi) {
+    fun bind(stock: StockUI) {
         binding.run {
             with(stock) {
                 nameTv.text = name
                 infoTv.text = date
                 priceTv.text = value.toString()
                 currencyTv.text = currency
-                imageView.setBackgroundColor(Color.parseColor(getColorIdFromPrice(value)))
+                imageView.setBackgroundColor(Color.parseColor(getColorHEXFromPrice(value)))
                 bindStar(starIb, this)
             }
         }
@@ -44,7 +43,7 @@ class ListViewHolder(
      * @param star The star button
      * @param stock The stock entity
      */
-    private fun bindStar(star: ImageButton, stock: StockUi) {
+    private fun bindStar(star: ImageButton, stock: StockUI) {
         star.apply {
             setImageResource(
                 if (stock.isFavorite)

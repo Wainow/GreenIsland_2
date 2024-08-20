@@ -4,10 +4,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.wainow.greenisland.domain.StockUseCase
-import com.wainow.greenisland.presentation.entity.LatestStocksUiState
-import com.wainow.greenisland.presentation.entity.StockUi
-import com.wainow.greenisland.presentation.util.Constants.DEFAULT_BASE_VALUE
-import com.wainow.greenisland.presentation.util.Constants.FAVORITE_PAGE_INDEX
+import com.wainow.greenisland.domain.entity.Currency
+import com.wainow.greenisland.presentation.entity.LatestStocksUIState
+import com.wainow.greenisland.presentation.entity.Screen
+import com.wainow.greenisland.presentation.entity.StockUI
 import com.wainow.greenisland.presentation.util.favorite
 import com.wainow.greenisland.toModel
 import com.wainow.greenisland.toUi
@@ -32,22 +32,24 @@ class ListViewModel @Inject constructor(
      * Flow for the UI state of all stocks
      */
     private val _uiState =
-        MutableStateFlow<LatestStocksUiState>(LatestStocksUiState.Loading())
+        MutableStateFlow<LatestStocksUIState>(LatestStocksUIState.Loading())
 
     /**
      * Flow for the UI state of favorite stocks
      */
     private val _uiFavoriteState =
-        MutableStateFlow<LatestStocksUiState>(LatestStocksUiState.Success(emptyList()))
+        MutableStateFlow<LatestStocksUIState>(LatestStocksUIState.Success(emptyList()))
 
     /**
      * Current currency for stocks
      */
-    private val _currentValue = MutableLiveData(DEFAULT_BASE_VALUE)
+    private val _currentValue = MutableLiveData(Currency.getDefaultCurrency().name)
 
     init {
-        findValues(_currentValue.value)
+        findValues(getCurrencyValue())
     }
+
+    private fun getCurrencyValue() = _currentValue.value ?: Currency.getDefaultCurrency().name
 
     /**
      * Handle the user selecting a stock as a favorite
@@ -56,17 +58,17 @@ class ListViewModel @Inject constructor(
      */
     fun favoriteStockClicked(name: String) {
         _uiState.value.onSuccess { list ->
-            _uiState.value = LatestStocksUiState.Loading()
+            _uiState.value = LatestStocksUIState.Loading()
             val stocks = list.map { stock ->
                 if (name == stock.name) {
-                    stock.apply { isFavorite = !isFavorite }
-                    saveFavoriteStock(stock)
-                    stock
+                    val newStock = stock.copy(isFavorite = !stock.isFavorite)
+                    saveFavoriteStock(newStock)
+                    newStock
                 } else
                     stock
             }
-            _uiState.value = LatestStocksUiState.Success(stocks)
-            _uiFavoriteState.value = LatestStocksUiState.Success(stocks.favorite())
+            _uiState.value = LatestStocksUIState.Success(stocks)
+            _uiFavoriteState.value = LatestStocksUIState.Success(stocks.favorite())
         }
     }
 
@@ -75,7 +77,7 @@ class ListViewModel @Inject constructor(
      *
      * @param stock The selected favorite stock
      */
-    private fun saveFavoriteStock(stock: StockUi) {
+    private fun saveFavoriteStock(stock: StockUI) {
         viewModelScope.launch {
             if (stock.isFavorite) stockUseCase.saveFavorite(stock.toModel())
             else stockUseCase.deleteFavorite(stock.toModel())
@@ -89,7 +91,7 @@ class ListViewModel @Inject constructor(
      */
     fun currentValueChanged(newValue: String) {
         _currentValue.postValue(newValue)
-        _uiState.value = LatestStocksUiState.Loading()
+        _uiState.value = LatestStocksUIState.Loading()
         findValues(newValue)
     }
 
@@ -98,18 +100,18 @@ class ListViewModel @Inject constructor(
      *
      * @param baseValue The currency
      */
-    private fun findValues(baseValue: String?) {
+    private fun findValues(baseValue: String) {
         viewModelScope.launch {
             try {
-                val favorites = stockUseCase.getFavorites()
+                val favorites = stockUseCase.getFavorites().toMutableList()
                 _uiFavoriteState.value =
-                    LatestStocksUiState.Success(favorites.toUi(isFavorite = true))
+                    LatestStocksUIState.Success(favorites.toUi(isFavorite = true))
                 stockUseCase.getLatestStocks(baseValue).collect { list ->
                     val result = list.map { model ->
                         if (favorites.any { it.name == model.name }) {
                             favorites.find { it.name == model.name }?.apply {
-                                value = model.value
-                                currency = model.currency
+                                val index = favorites.indexOf(this)
+                                favorites[index] = copy(value = model.value, currency = model.currency)
                             }
                             model.toUi(true)
                         } else {
@@ -117,11 +119,11 @@ class ListViewModel @Inject constructor(
                         }
                     }
                     stockUseCase.updateFavorites(favorites)
-                    _uiFavoriteState.value = LatestStocksUiState.Success(favorites.toUi(true))
-                    _uiState.value = LatestStocksUiState.Success(result)
+                    _uiFavoriteState.value = LatestStocksUIState.Success(favorites.toUi(true))
+                    _uiState.value = LatestStocksUIState.Success(result)
                 }
             } catch (e: Exception) {
-                _uiState.value = LatestStocksUiState.Error(e)
+                _uiState.value = LatestStocksUIState.Error(e)
             }
         }
     }
@@ -132,9 +134,9 @@ class ListViewModel @Inject constructor(
      * @param page The page number
      * @return The state flow
      */
-    fun getStocksByPage(page: Int): StateFlow<LatestStocksUiState> =
+    fun getStocksByPage(page: Int): StateFlow<LatestStocksUIState> =
         when (page) {
-            FAVORITE_PAGE_INDEX -> _uiFavoriteState
+            Screen.FAVORITES.ordinal -> _uiFavoriteState
             else -> _uiState
         }
 
@@ -164,20 +166,21 @@ class ListViewModel @Inject constructor(
      */
     private fun sort(byName: Boolean, isAscending: Boolean) {
         viewModelScope.launch {
-            _uiState.value = LatestStocksUiState.Loading()
+            _uiState.value = LatestStocksUIState.Loading()
             try {
                 val favorites = stockUseCase.getFavorites()
-                (if (byName) stockUseCase.sortByName(_currentValue.value, isAscending)
-                else stockUseCase.sortByValue(_currentValue.value, isAscending))
+                val currencyValue = getCurrencyValue()
+                (if (byName) stockUseCase.sortByName(currencyValue, isAscending)
+                else stockUseCase.sortByValue(currencyValue, isAscending))
                     .collect { list ->
                         val result = list.map { model ->
                             model.toUi(favorites.any { it.name == model.name })
                         }
-                        _uiState.value = LatestStocksUiState.Success(result)
-                        _uiFavoriteState.value = LatestStocksUiState.Success(result.favorite())
+                        _uiState.value = LatestStocksUIState.Success(result)
+                        _uiFavoriteState.value = LatestStocksUIState.Success(result.favorite())
                     }
             } catch (e: Exception) {
-                _uiState.value = LatestStocksUiState.Error(e)
+                _uiState.value = LatestStocksUIState.Error(e)
             }
         }
     }

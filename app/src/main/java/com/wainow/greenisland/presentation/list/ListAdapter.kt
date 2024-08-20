@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.wainow.greenisland.databinding.StockItemBinding
-import com.wainow.greenisland.presentation.entity.StockUi
+import com.wainow.greenisland.presentation.entity.StockUI
 
 /**
  * Adapter for the stock list
@@ -18,7 +18,7 @@ class ListAdapter(
     /**
      * List of stocks
      */
-    var stocks: List<StockUi> = listOf()
+    var stocks: List<StockUI> = listOf()
         set(value) {
             field = value
             notifyDataSetChanged()

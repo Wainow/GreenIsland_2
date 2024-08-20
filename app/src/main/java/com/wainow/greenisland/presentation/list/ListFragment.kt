@@ -1,7 +1,6 @@
 package com.wainow.greenisland.presentation.list
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,10 +10,10 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.wainow.greenisland.databinding.ListFragmentBinding
 import com.wainow.greenisland.presentation.core.CoreFragment
-import com.wainow.greenisland.presentation.entity.LatestStocksUiState
-import com.wainow.greenisland.presentation.entity.StockUi
+import com.wainow.greenisland.presentation.entity.LatestStocksUIState
+import com.wainow.greenisland.presentation.entity.StockUI
+import com.wainow.greenisland.presentation.util.executeWithLifecycle
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 /**
@@ -81,11 +80,11 @@ class ListFragment : CoreFragment<ListFragmentBinding>() {
      */
     private fun observeViewModel() {
         lifecycleScope.launch {
-            listViewModel.getStocksByPage(getPage()).collect { uiState ->
+            listViewModel.getStocksByPage(getPage()).executeWithLifecycle(lifecycle) { uiState ->
                 when (uiState) {
-                    is LatestStocksUiState.Loading -> showLoading(true)
-                    is LatestStocksUiState.Success -> showStocks(uiState.stocks)
-                    is LatestStocksUiState.Error -> showError(uiState.exception.toString())
+                    is LatestStocksUIState.Loading -> showLoading(true)
+                    is LatestStocksUIState.Success -> showStocks(uiState.stocks)
+                    is LatestStocksUIState.Error -> showError(uiState.exception.toString())
                 }
             }
         }
@@ -105,7 +104,7 @@ class ListFragment : CoreFragment<ListFragmentBinding>() {
      *
      * @param value the list of stocks
      */
-    private fun showStocks(value: List<StockUi>) {
+    private fun showStocks(value: List<StockUI>) {
         listAdapter?.stocks = value
         showLoading(false)
     }

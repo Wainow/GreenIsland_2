@@ -2,8 +2,11 @@ package com.wainow.greenisland
 
 import com.wainow.greenisland.data.db.StockFavoriteEntity
 import com.wainow.greenisland.data.entity.ResponseDto
-import com.wainow.greenisland.domain.entity.StockModel
-import com.wainow.greenisland.presentation.entity.StockUi
+import com.wainow.greenisland.domain.entity.Stock
+import com.wainow.greenisland.presentation.entity.StockUI
+
+const val HEX_NEUTRAL_COLOR_DIGIT = 5
+const val HEX_MAX_DIGIT_COUNT = 6
 
 /**
  * Converts the server response to a stock model.
@@ -11,7 +14,7 @@ import com.wainow.greenisland.presentation.entity.StockUi
  * @return a list of stock models.
  */
 fun ResponseDto.toModel() = this.rates.mapValues { entry ->
-    StockModel(
+    Stock(
         name = entry.key,
         value = entry.value,
         date = date,
@@ -25,8 +28,8 @@ fun ResponseDto.toModel() = this.rates.mapValues { entry ->
  * @param isFavorite indicates whether the stock is a favorite.
  * @return a UI stock model.
  */
-fun StockModel.toUi(isFavorite: Boolean = false) =
-    StockUi(
+fun Stock.toUi(isFavorite: Boolean = false) =
+    StockUI(
         name = name,
         value = value,
         date = date,
@@ -40,14 +43,14 @@ fun StockModel.toUi(isFavorite: Boolean = false) =
  * @param isFavorite indicates whether the stocks are favorites.
  * @return a list of UI stock models.
  */
-fun List<StockModel>.toUi(isFavorite: Boolean = false) = map { it.toUi(isFavorite) }
+fun List<Stock>.toUi(isFavorite: Boolean = false) = map { it.toUi(isFavorite) }
 
 /**
  * Converts a UI stock model to a stock model.
  *
  * @return a stock model.
  */
-fun StockUi.toModel() = StockModel(
+fun StockUI.toModel() = Stock(
     name = name,
     value = value,
     date = date,
@@ -59,21 +62,21 @@ fun StockUi.toModel() = StockModel(
  *
  * @return a favorite stock entity for database storage.
  */
-fun StockModel.toFavoriteEntity() = StockFavoriteEntity(
+fun Stock.toFavoriteEntity() = StockFavoriteEntity(
     name = name,
     value = value,
     date = date,
     currency = currency
 )
 
-fun List<StockModel>.toFavoriteModel() = map { it.toFavoriteEntity() }
+fun List<Stock>.toFavoriteModel() = map { it.toFavoriteEntity() }
 
 /**
  * Converts a database entity to a stock model.
  *
  * @return a stock model.
  */
-fun StockFavoriteEntity.toModel() = StockModel(
+fun StockFavoriteEntity.toModel() = Stock(
     name = name,
     value = value,
     date = date,
@@ -92,11 +95,11 @@ fun List<StockFavoriteEntity>.toModel() = map { it.toModel() }
  *
  * @return a HEX color code.
  */
-fun getColorIdFromPrice(price: Double): String {
+fun getColorHEXFromPrice(price: Double): String {
     var number = "$price"
         .filter { it.isDigit() }
-    while (number.length < 7) {
-        number += "5"
+    while (number.length <= HEX_MAX_DIGIT_COUNT) {
+        number += HEX_NEUTRAL_COLOR_DIGIT.toString()
     }
-    return "#${number.take(6)}"
+    return "#${number.take(HEX_MAX_DIGIT_COUNT)}"
 }

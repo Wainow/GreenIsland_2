@@ -7,6 +7,8 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.tabs.TabLayoutMediator
 import com.wainow.greenisland.R
 import com.wainow.greenisland.databinding.MainActivityBinding
+import com.wainow.greenisland.domain.entity.Currency
+import com.wainow.greenisland.presentation.entity.SortType
 import com.wainow.greenisland.presentation.list.ListViewModel
 import com.wainow.greenisland.presentation.list.PageAdapter
 import dagger.hilt.android.AndroidEntryPoint
@@ -17,14 +19,38 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     /**
-     * Binding for the layout
+     * Binding for the main activity layout.
      */
     private val binding: MainActivityBinding by lazy { MainActivityBinding.inflate(layoutInflater) }
 
     /**
-     * ViewModel for the list of stocks
+     * ViewModel for managing the list of stocks.
      */
     private val listViewModel by viewModels<ListViewModel>()
+
+    /**
+     * Array of available sorting types.
+     */
+    private val sortTypes by lazy { SortType.values() }
+
+    /**
+     * Array of available currencies.
+     */
+    private val currencies by lazy { Currency.values() }
+
+    /**
+     * Array of currency names for use in dialogs.
+     */
+    private val currenciesChars: Array<CharSequence> by lazy {
+        currencies.map { it.name }.toTypedArray()
+    }
+
+    /**
+     * Array of sorting type descriptions for use in dialogs.
+     */
+    private val sortTypesChars: Array<CharSequence> by lazy {
+        sortTypes.map { resources.getString(it.text) }.toTypedArray()
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,19 +79,19 @@ class MainActivity : AppCompatActivity() {
     private fun setOnClickListeners() {
         binding.run {
             sortBtn.setOnClickListener {
-                openDialog(R.array.sort_by) { which ->
-                    when (which) {
-                        0 -> listViewModel.sortByName(true)  // Sort by name in ascending order
-                        1 -> listViewModel.sortByName(false) // Sort by name in descending order
-                        2 -> listViewModel.sortByValue(true) // Sort by value in ascending order
-                        3 -> listViewModel.sortByValue(false) // Sort by value in descending order
+                openDialog(sortTypesChars) { which ->
+                    val sortType = sortTypes[which]
+                    when (sortType) {
+                        SortType.NAME_ASCENDING -> listViewModel.sortByName(true)
+                        SortType.NAME_DESCENDING -> listViewModel.sortByName(false)
+                        SortType.VALUE_ASCENDING -> listViewModel.sortByValue(true)
+                        SortType.VALUE_DESCENDING -> listViewModel.sortByValue(false)
                     }
                 }
             }
             valueBtn.setOnClickListener {
-                openDialog(R.array.values) { which ->
-                    val values = resources.getStringArray(R.array.values)
-                    listViewModel.currentValueChanged(values[which])
+                openDialog(currenciesChars) { which ->
+                    listViewModel.currentValueChanged(currencies[which].name)
                 }
             }
         }
@@ -77,13 +103,13 @@ class MainActivity : AppCompatActivity() {
      * @param itemsId Resource ID for the list of items
      * @param clickListener Callback for the selected item
      */
-    private fun openDialog(itemsId: Int, clickListener: (Int) -> Unit) {
+    private fun openDialog(items: Array<CharSequence>, clickListener: (Int) -> Unit) {
         val builder = AlertDialog.Builder(
             this@MainActivity,
             R.style.AlertDialog_AppCompat_GreenIsland
         )
         builder.setTitle(R.string.dialog_title)
-            .setItems(itemsId) { _, which ->
+            .setItems(items) { _, which ->
                 clickListener(which)
             }
         builder.create().show()

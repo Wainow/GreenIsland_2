@@ -9,10 +9,10 @@ package com.wainow.greenisland.presentation.entity
  * @property currency the type of currency
  * @property isFavorite flag indicating whether the stock is a favorite
  */
-data class StockUi(
+data class StockUI(
     val value: Double,
     val name: String,
     val date: String,
     val currency: String,
-    var isFavorite: Boolean
+    val isFavorite: Boolean
 )

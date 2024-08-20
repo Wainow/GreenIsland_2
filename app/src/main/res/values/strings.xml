@@ -1,10 +1,15 @@
 <resources>
     <string name="app_name">GreenIsland</string>
-    <string name="tab_text_1">All users</string>
-    <string name="tab_text_2">Favorites</string>
+    <string name="all_stocks">All stocks</string>
+    <string name="favorites">Favorites</string>
     <string name="dialog_title">Sort by</string>
     <string name="default_base">EUR</string>
     <string name="default_price">1.076433</string>
     <string name="default_date">2022-05-31</string>
     <string name="default_stock">BMD</string>
+
+    <string name="name_ascending">By name in ascending order</string>
+    <string name="name_descending">By name is descending order</string>
+    <string name="value_ascending">By value in ascending order</string>
+    <string name="value_descending">By value in descending order</string>
 </resources>
