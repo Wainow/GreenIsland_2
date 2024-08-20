@@ -15,10 +15,12 @@ import retrofit2.converter.gson.GsonConverterFactory
 @InstallIn(SingletonComponent::class)
 class NetworkModule {
 
-    /**
-     * Базовый юрл
-     */
-    private val BASE_URL = "https://api.exchangerate.host/"
+    companion object {
+        /**
+         * Базовый юрл
+         */
+        const val BASE_URL = "https://api.exchangerate.host/"
+    }
 
     /**
      * Ретрофит билдер для создания сущности апи сервиса

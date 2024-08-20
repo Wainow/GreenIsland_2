@@ -1,13 +1,13 @@
 package com.wainow.greenisland.presentation.entity
 
 /**
- * Ui-сущность акции
+ * UI entity for a stock
  *
- * @property value стоимость акции
- * @property name название акции
- * @property date дата отображаемой стоимости
- * @property currency тип валюты
- * @property isFavorite флаг любимой/не любимой акции
+ * @property value the value of the stock
+ * @property name the name of the stock
+ * @property date the date of the displayed value
+ * @property currency the type of currency
+ * @property isFavorite flag indicating whether the stock is a favorite
  */
 data class StockUi(
     val value: Double,

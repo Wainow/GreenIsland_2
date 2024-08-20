@@ -6,13 +6,13 @@ import com.wainow.greenisland.presentation.util.Constants.PAGE_COUNT
 import com.wainow.greenisland.presentation.util.Constants.TAB_TITLES
 
 /**
- * Адаптер страниц приложения
+ * Adapter for the application's pages
  */
 class PageAdapter(activity: FragmentActivity) :
     FragmentStateAdapter(activity) {
 
     /**
-     * Список фрагментов приложения
+     * List of fragments for the application
      */
     private val fragments = listOf(
         ListFragment.newInstance(1),
@@ -20,11 +20,11 @@ class PageAdapter(activity: FragmentActivity) :
     )
 
     /**
-     * Получения титульница страницы по номеру
+     * Get the tab title for a given page number
      *
-     * @param position номер страницы
+     * @param position Page number
      *
-     * @return титульник страницы
+     * @return Tab title for the page
      */
     fun getTabTitle(position: Int) = TAB_TITLES[position]
 

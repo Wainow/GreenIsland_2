@@ -5,16 +5,16 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 
 /**
- * Апи сервис акций
+ * API service for stocks
  */
 interface ApiService {
 
     /**
-     * Получение последний котировок акций
+     * Retrieves the latest stock quotes
      *
-     * @param baseValue валюта акций
+     * @param baseValue the currency of the stocks
      *
-     * @return сущность ответа с акциями
+     * @return the response entity with stock data
      */
     @GET("/latest")
     suspend fun getStocks(

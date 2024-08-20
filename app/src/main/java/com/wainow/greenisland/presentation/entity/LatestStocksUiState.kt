@@ -1,36 +1,36 @@
 package com.wainow.greenisland.presentation.entity
 
 /**
- * Состояния экрана
+ * Screen states
  */
 sealed class LatestStocksUiState {
     /**
-     * Состояние загрузки
+     * Loading state
      *
-     * @property message сообщение
+     * @property message the message
      */
     data class Loading(val message: String = ""): LatestStocksUiState()
 
     /**
-     * Состояние успешной загрузки акций
+     * Successful state for loading stocks
      *
-     * @property stocks список акций
+     * @property stocks the list of stocks
      */
     data class Success(val stocks: List<StockUi>) : LatestStocksUiState()
 
     /**
-     * Состояние ошибки
+     * Error state
      *
-     * @property exception текущая ошибка
+     * @property exception the current error
      */
     data class Error(val exception: Throwable) : LatestStocksUiState()
 
     /**
-     * Проверка состояния на успешность
+     * Checks the state for success
      *
-     * @param action действие которое выполняем если текущее состояние успешное
+     * @param action the action to perform if the current state is successful
      *
-     * @return сущность состояния экрана
+     * @return the screen state entity
      */
     inline fun onSuccess(
         crossinline action: (List<StockUi>) -> Unit

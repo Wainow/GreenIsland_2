@@ -1,14 +1,14 @@
 package com.wainow.greenisland.data.entity
 
 /**
- * Сущность для ответа сервера
+ * Entity for the server response
  *
- * @property motd рекламное сообщение сервера
- * @property success флаг успешности/неуспешности ответа
- * @property historical ваще хз в
- * @property base валюта акции
- * @property date дата стоимости
- * @property rates курсы акций, Map<Название_акции, Стоимость_акции>
+ * @property motd the server's promotional message
+ * @property success flag indicating success or failure of the response
+ * @property historical unclear field
+ * @property base the currency of the stocks
+ * @property date the date of the stock values
+ * @property rates stock rates, Map<Stock_Name, Stock_Value>
  */
 data class ResponseDto(
     val motd: MessageDto,

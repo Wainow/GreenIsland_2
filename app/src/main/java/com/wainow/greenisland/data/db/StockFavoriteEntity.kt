@@ -5,12 +5,12 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 /**
- * Сущность любимой акции для сохранения в БД
+ * Entity for a favorite stock to be saved in the database
  *
- * @property name название акции
- * @property value стоимость акции
- * @property date дата стоимости
- * @property currency валюта акции
+ * @property name the name of the stock
+ * @property value the value of the stock
+ * @property date the date of the stock value
+ * @property currency the currency of the stock
  */
 @Entity
 data class StockFavoriteEntity(

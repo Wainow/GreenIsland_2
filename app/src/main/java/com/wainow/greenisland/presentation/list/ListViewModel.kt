@@ -19,28 +19,29 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 /**
- * Вью модель списка акций
+ * ViewModel for the stock list
  *
- * @param stockUseCase юзкейс для акций
+ * @param stockUseCase Use case for stocks
  */
 @HiltViewModel
 class ListViewModel @Inject constructor(
     private val stockUseCase: StockUseCase
 ) : ViewModel() {
+
     /**
-     * Флоу состояния экрана всех акций
+     * Flow for the UI state of all stocks
      */
     private val _uiState =
         MutableStateFlow<LatestStocksUiState>(LatestStocksUiState.Loading())
 
     /**
-     * Флоу состояния экрана с любимыми акциями
+     * Flow for the UI state of favorite stocks
      */
     private val _uiFavoriteState =
         MutableStateFlow<LatestStocksUiState>(LatestStocksUiState.Success(emptyList()))
 
     /**
-     * Текущая валюта для акций
+     * Current currency for stocks
      */
     private val _currentValue = MutableLiveData(DEFAULT_BASE_VALUE)
 
@@ -49,9 +50,9 @@ class ListViewModel @Inject constructor(
     }
 
     /**
-     * Пользователь выбрал акцию как любимую, обработка клика
+     * Handle the user selecting a stock as a favorite
      *
-     * @param name название акции
+     * @param name The name of the stock
      */
     fun favoriteStockClicked(name: String) {
         _uiState.value.onSuccess { list ->
@@ -70,9 +71,9 @@ class ListViewModel @Inject constructor(
     }
 
     /**
-     * Сохранение выбранной любимой акции
+     * Save the selected favorite stock
      *
-     * @param stock выбранная любимая акция
+     * @param stock The selected favorite stock
      */
     private fun saveFavoriteStock(stock: StockUi) {
         viewModelScope.launch {
@@ -82,9 +83,9 @@ class ListViewModel @Inject constructor(
     }
 
     /**
-     * Обработка изменения текущей валюты для акций
+     * Handle changes in the current currency for stocks
      *
-     * @param newValue новая валюта для акций
+     * @param newValue The new currency for stocks
      */
     fun currentValueChanged(newValue: String) {
         _currentValue.postValue(newValue)
@@ -93,9 +94,9 @@ class ListViewModel @Inject constructor(
     }
 
     /**
-     * Поиск акций по валюте
+     * Fetch stocks based on the currency
      *
-     * @param baseValue валюта
+     * @param baseValue The currency
      */
     private fun findValues(baseValue: String?) {
         viewModelScope.launch {
@@ -126,9 +127,10 @@ class ListViewModel @Inject constructor(
     }
 
     /**
-     * Получение определенного стейта флоу в зависимости от номера страницы
+     * Get a specific state flow based on the page number
      *
-     * @param page номер страницы
+     * @param page The page number
+     * @return The state flow
      */
     fun getStocksByPage(page: Int): StateFlow<LatestStocksUiState> =
         when (page) {
@@ -137,28 +139,28 @@ class ListViewModel @Inject constructor(
         }
 
     /**
-     * Сортировка акций по названию
+     * Sort stocks by name
      *
-     * @param isAscending флаг сортировки по возрастанию/убыванию
+     * @param isAscending Flag for ascending/descending order
      */
     fun sortByName(isAscending: Boolean) {
         sort(byName = true, isAscending)
     }
 
     /**
-     * Сортировка акций по стоимости
+     * Sort stocks by value
      *
-     * @param isAscending флаг сортировки по возрастанию/убыванию
+     * @param isAscending Flag for ascending/descending order
      */
     fun sortByValue(isAscending: Boolean) {
         sort(byName = false, isAscending)
     }
 
     /**
-     * Сортировка акций
+     * Sort stocks
      *
-     * @param byName флаг сортировки по названию/стоимости
-     * @param isAscending флаг сортировки по возрастанию/убыванию
+     * @param byName Flag to sort by name/value
+     * @param isAscending Flag for ascending/descending order
      */
     private fun sort(byName: Boolean, isAscending: Boolean) {
         viewModelScope.launch {

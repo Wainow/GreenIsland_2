@@ -7,16 +7,16 @@ import com.wainow.greenisland.databinding.StockItemBinding
 import com.wainow.greenisland.presentation.entity.StockUi
 
 /**
- * Адаптер списка акций
+ * Adapter for the stock list
  *
- * @param favoriteClicked калбек нажатия на звездочку
+ * @param favoriteClicked callback for star icon clicks
  */
 class ListAdapter(
     private val favoriteClicked: (String) -> Unit
 ): RecyclerView.Adapter<ListViewHolder>() {
 
     /**
-     * Список акций
+     * List of stocks
      */
     var stocks: List<StockUi> = listOf()
         set(value) {

@@ -11,20 +11,19 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
-
 /**
- * Модуль БД
+ * Database module
  */
 @Module
 @InstallIn(SingletonComponent::class)
 class DatabaseModule {
 
     /**
-     * Получение ДАО от БД
+     * Provides the DAO from the database
      *
-     * @param database БД
+     * @param database the database
      *
-     * @return ДАО
+     * @return the DAO
      */
     @Provides
     fun provideStockDao(database: StockDatabase): StockDao {
@@ -32,11 +31,11 @@ class DatabaseModule {
     }
 
     /**
-     * Получение БД
+     * Provides the database
      *
-     * @param appContext контекст
+     * @param appContext the application context
      *
-     * @return БД
+     * @return the database
      */
     @Provides
     @Singleton

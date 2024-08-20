@@ -12,17 +12,17 @@ import com.wainow.greenisland.presentation.list.PageAdapter
 import dagger.hilt.android.AndroidEntryPoint
 
 /**
- * Главное активити приложения
+ * Main activity of the application
  */
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     /**
-     * Биндинг моего лэйаута
+     * Binding for the layout
      */
     private val binding: MainActivityBinding by lazy { MainActivityBinding.inflate(layoutInflater) }
 
     /**
-     * Вью модель списка акций
+     * ViewModel for the list of stocks
      */
     private val listViewModel by viewModels<ListViewModel>()
 
@@ -35,7 +35,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     /**
-     * Инициализация всех вьюшек
+     * Initializes all views
      */
     private fun initView() {
         binding.run {
@@ -48,25 +48,17 @@ class MainActivity : AppCompatActivity() {
     }
 
     /**
-     * Обработка всех кликов на вьюшки
+     * Handles all view click events
      */
     private fun setOnClickListeners() {
         binding.run {
             sortBtn.setOnClickListener {
                 openDialog(R.array.sort_by) { which ->
                     when (which) {
-                        0 -> {
-                            listViewModel.sortByName(true)
-                        }
-                        1 -> {
-                            listViewModel.sortByName(false)
-                        }
-                        2 -> {
-                            listViewModel.sortByValue(true)
-                        }
-                        3 -> {
-                            listViewModel.sortByValue(false)
-                        }
+                        0 -> listViewModel.sortByName(true)  // Sort by name in ascending order
+                        1 -> listViewModel.sortByName(false) // Sort by name in descending order
+                        2 -> listViewModel.sortByValue(true) // Sort by value in ascending order
+                        3 -> listViewModel.sortByValue(false) // Sort by value in descending order
                     }
                 }
             }
@@ -80,10 +72,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     /**
-     * Открытие диалогового окна в выбором
+     * Opens a dialog for selecting an item
      *
-     * @param itemsId список айдишников строчек для выбора
-     * @param clickListener колбек выбранной строчки
+     * @param itemsId Resource ID for the list of items
+     * @param clickListener Callback for the selected item
      */
     private fun openDialog(itemsId: Int, clickListener: (Int) -> Unit) {
         val builder = AlertDialog.Builder(

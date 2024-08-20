@@ -4,13 +4,13 @@ import androidx.room.Database
 import androidx.room.RoomDatabase
 
 /**
- * Сущность БД
+ * Database entity
  */
 @Database(entities = [StockFavoriteEntity::class], version = 1)
 abstract class StockDatabase : RoomDatabase() {
 
     /**
-     * Получение ДАО для взаимодействия с БД
+     * Gets the DAO for database interaction
      */
     abstract fun stockDao(): StockDao
 

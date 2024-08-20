@@ -4,8 +4,8 @@ import android.app.Application
 import dagger.hilt.android.HiltAndroidApp
 
 /**
- * Синглтон моего приложения
+ * Singleton for the application
  */
 @HiltAndroidApp
-class MyApp: Application() {
+class MyApp : Application() {
 }

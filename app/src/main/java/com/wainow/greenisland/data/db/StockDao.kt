@@ -1,39 +1,40 @@
 package com.wainow.greenisland.data.db
 
 import androidx.room.*
+
 /**
- * Сущность для обращения к БД
+ * Entity for database access
  */
 @Dao
 interface StockDao {
     /**
-     * Получение всех любимых акций
+     * Retrieves all favorite stocks
      *
-     * @return список любимых акций
+     * @return list of favorite stocks
      */
     @Query("SELECT * FROM stockFavoriteEntity")
     suspend fun getAllFavoriteStocks(): List<StockFavoriteEntity>
 
     /**
-     * Поместить акцию в БД
+     * Inserts a stock into the database
      *
-     * @param favoriteStock любимая акция
+     * @param favoriteStock the favorite stock
      */
     @Insert
     suspend fun insert(favoriteStock: StockFavoriteEntity)
 
     /**
-     * Удалить акцию из БД
+     * Deletes a stock from the database
      *
-     * @param stock не любимая акция
+     * @param stock the stock to be deleted
      */
     @Delete
     suspend fun delete(stock: StockFavoriteEntity)
 
     /**
-     * Обновить список акций в БД
+     * Updates the list of stocks in the database
      *
-     * @param stocks список акций для обновления
+     * @param stocks list of stocks to update
      */
     @Update
     suspend fun update(stocks: List<StockFavoriteEntity>)

@@ -4,52 +4,52 @@ import com.wainow.greenisland.domain.entity.StockModel
 import kotlinx.coroutines.flow.Flow
 
 /**
- * Репозиторий для акций
+ * Repository for stocks
  */
 interface StockRepository {
     /**
-     * Получение последних акций из сети интернет
+     * Retrieves the latest stocks from the internet
      *
-     * @param baseValue валюта акции
+     * @param baseValue the currency of the stock
      *
-     * @return флоу списка акций
+     * @return a flow of the list of stocks
      */
     suspend fun getLatestStocks(baseValue: String): Flow<List<StockModel>>
 
     /**
-     * Получение последних акций в замоканном варианте (мб полезно если превышено число запросов)
+     * Retrieves the latest stocks in a cached format (might be useful if the number of requests is exceeded)
      *
-     * @param baseValue валюта акции
+     * @param baseValue the currency of the stock
      *
-     * @return флоу списка акций
+     * @return a flow of the list of stocks
      */
     suspend fun getMockStocks(baseValue: String): Flow<List<StockModel>>
 
     /**
-     * Сохранение текущей любимой акции в БД
+     * Saves the current favorite stock to the database
      *
-     * @param stock текущая любимая акция
+     * @param stock the current favorite stock
      */
     suspend fun saveFavoriteStock(stock: StockModel)
 
     /**
-     * Получение списка любимых акций из БД
+     * Retrieves the list of favorite stocks from the database
      *
-     * @return список любимых акций
+     * @return the list of favorite stocks
      */
     suspend fun getFavoriteStocks(): List<StockModel>
 
     /**
-     * Удаление нелюбимой акции из списка любимых
+     * Removes an unwanted stock from the list of favorites
      *
-     * @param stock нелюбимая акция
+     * @param stock the unwanted stock
      */
     suspend fun deleteFavoriteStock(stock: StockModel)
 
     /**
-     * Обновление списка любимых акций
+     * Updates the list of favorite stocks
      *
-     * @param stocks список любимых акций
+     * @param stocks the list of favorite stocks
      */
     suspend fun updateFavorites(stocks: List<StockModel>)
 }

@@ -8,20 +8,20 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 
 /**
- * Модуль для репозиториев в хилте
+ * Module for repositories in Hilt
  */
 @Module
 @InstallIn(SingletonComponent::class)
 interface RepositoryModule {
 
     /**
-     * Получение репозитория акций
+     * Provides the stock repository
      *
-     * @param impl имплементация репозитория
+     * @param impl the repository implementation
      *
-     * @return репозиторий
+     * @return the repository
      */
     @Binds
-    fun bindStockRepo(impl : StockRepositoryImpl) : StockRepository
+    fun bindStockRepo(impl: StockRepositoryImpl): StockRepository
 
 }

@@ -17,10 +17,10 @@ import java.lang.reflect.Type
 import javax.inject.Inject
 
 /**
- * Имплементация репозитория
+ * Implementation of the repository
  *
- * @param apiService апи сервиса акций
- * @param stockDao ДАО сущность для работы с БД
+ * @param apiService the stock API service
+ * @param stockDao the DAO entity for database operations
  */
 class StockRepositoryImpl @Inject constructor(
     private val apiService: ApiService,

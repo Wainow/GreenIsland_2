@@ -1,15 +1,15 @@
 package com.wainow.greenisland.data.api
 
 /**
- * Замоканные результаты акций
+ * Cached stock results
  */
 object MockedResults {
     /**
-     * Получение замоканных стоимостей акций по валюте
+     * Retrieves cached stock values by currency
      *
-     * @param baseValue валюта акции
+     * @param baseValue the currency of the stocks
      *
-     * @return JSON акций
+     * @return the stock data in JSON format
      */
     fun getLatestStock(baseValue: String): String {
         return when (baseValue) {

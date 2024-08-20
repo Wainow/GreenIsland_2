@@ -18,23 +18,23 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 /**
- * Фрагмент страницы акции
+ * Fragment for the stock page
  */
 @AndroidEntryPoint
 class ListFragment : CoreFragment<ListFragmentBinding>() {
 
     companion object {
         /**
-         * Ключ для сохранения номера в бандл
+         * Key for saving the page number in the bundle
          */
         const val ARG_SECTION_NUMBER = "number"
 
         /**
-         * Создание экземляра фрагмента
+         * Creates a new instance of the fragment
          *
-         * @param sectionNumber номер страницы
+         * @param sectionNumber the page number
          *
-         * @return экземляр фрагмента
+         * @return the fragment instance
          */
         fun newInstance(sectionNumber: Int): ListFragment {
             val args = Bundle().apply {
@@ -48,12 +48,12 @@ class ListFragment : CoreFragment<ListFragmentBinding>() {
     }
 
     /**
-     * Адаптер для списка акций
+     * Adapter for the stock list
      */
     private var listAdapter: ListAdapter? = null
 
     /**
-     * Вью модель списка акций
+     * View model for the stock list
      */
     private val listViewModel by activityViewModels<ListViewModel>()
 
@@ -63,7 +63,7 @@ class ListFragment : CoreFragment<ListFragmentBinding>() {
     }
 
     /**
-     * Настройка адаптера
+     * Sets up the adapter
      */
     private fun setupAdapter() {
         val manager = LinearLayoutManager(context)
@@ -77,7 +77,7 @@ class ListFragment : CoreFragment<ListFragmentBinding>() {
     }
 
     /**
-     * Наблюдение за вью моделью
+     * Observes the view model
      */
     private fun observeViewModel() {
         lifecycleScope.launch {
@@ -92,18 +92,18 @@ class ListFragment : CoreFragment<ListFragmentBinding>() {
     }
 
     /**
-     * Отображения состояния загрузки
+     * Shows or hides the loading indicator
      *
-     * @param isShow флаг отображения/скрытия загрузки
+     * @param isShow flag to show or hide loading
      */
     private fun showLoading(isShow: Boolean) {
         binding.pb.visibility = if(isShow) View.VISIBLE else View.INVISIBLE
     }
 
     /**
-     * Показ списка акций
+     * Displays the list of stocks
      *
-     * @param value список акций
+     * @param value the list of stocks
      */
     private fun showStocks(value: List<StockUi>) {
         listAdapter?.stocks = value
@@ -111,9 +111,9 @@ class ListFragment : CoreFragment<ListFragmentBinding>() {
     }
 
     /**
-     * Показ ошибки на экране
+     * Displays an error message on the screen
      *
-     * @param error ошибка
+     * @param error the error message
      */
     private fun showError(error: String) {
         Toast.makeText(context, error, Toast.LENGTH_LONG).show()
@@ -121,9 +121,9 @@ class ListFragment : CoreFragment<ListFragmentBinding>() {
     }
 
     /**
-     * Получения номера страницы из бандла
+     * Gets the page number from the bundle
      *
-     * @return номер страницы
+     * @return the page number
      */
     private fun getPage() = arguments?.getInt(ARG_SECTION_NUMBER) ?: 0
 

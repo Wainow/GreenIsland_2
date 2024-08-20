@@ -3,21 +3,21 @@ package com.wainow.greenisland.presentation.util
 import com.wainow.greenisland.R
 
 /**
- * Синглтон списка констант
+ * Singleton for a list of constants
  */
 object Constants {
     /**
-     * Номер страницы с любимыми акциями
+     * Page number for the favorite stocks
      */
     const val FAVORITE_PAGE_INDEX = 2
 
     /**
-     * Число страниц
+     * Number of pages
      */
     const val PAGE_COUNT = 2
 
     /**
-     * Титульники страниц с акциями
+     * Titles for the tabs in the stocks pages
      */
     val TAB_TITLES = arrayOf(
         R.string.tab_text_1,
@@ -25,7 +25,7 @@ object Constants {
     )
 
     /**
-     * Стандартный тип валюты при открытии приложения
+     * Default currency type when the application starts
      */
     const val DEFAULT_BASE_VALUE = "EUR"
 }

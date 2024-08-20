@@ -8,20 +8,20 @@ import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
 
 /**
- * Базовый абстрактный фрагмент для выноса лишних методов и полей
+ * Base abstract fragment for extracting common methods and fields
  */
 abstract class CoreFragment<T : ViewBinding> : Fragment() {
 
     /**
-     * Биндинг лэйаута
+     * Layout binding
      */
     protected lateinit var binding: T
 
     /**
-     * Получение биндинга
+     * Gets the binding
      *
-     * @param inflater инфлейтер для связки xml и view
-     * @param container текущая ViewGroup фрагмента
+     * @param inflater the inflater for binding XML and view
+     * @param container the current ViewGroup of the fragment
      */
     abstract fun onCreateBinding(
         inflater: LayoutInflater,
@@ -29,7 +29,7 @@ abstract class CoreFragment<T : ViewBinding> : Fragment() {
     ): T
 
     /**
-     * Инициализация вьюшек
+     * Initializes the views
      */
     protected open fun T.onInitView() {}
 

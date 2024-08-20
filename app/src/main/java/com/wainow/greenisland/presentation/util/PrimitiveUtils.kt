@@ -3,12 +3,12 @@ package com.wainow.greenisland.presentation.util
 import com.wainow.greenisland.presentation.entity.StockUi
 
 /**
- * Файл с экстеншенами примитивов
+ * File containing extension functions for primitives
  */
 
 /**
- * Фильтрация списка акций на любимые
+ * Filters the list of stocks to return only the favorite ones.
  *
- * @return список любимых акций
+ * @return list of favorite stocks
  */
 fun List<StockUi>.favorite() = filter { it.isFavorite }

@@ -6,9 +6,9 @@ import com.wainow.greenisland.domain.entity.StockModel
 import com.wainow.greenisland.presentation.entity.StockUi
 
 /**
- * Преобразование ответа от сервера в модель акции
+ * Converts the server response to a stock model.
  *
- * @return модель акции
+ * @return a list of stock models.
  */
 fun ResponseDto.toModel() = this.rates.mapValues { entry ->
     StockModel(
@@ -20,11 +20,11 @@ fun ResponseDto.toModel() = this.rates.mapValues { entry ->
 }.values.toMutableList()
 
 /**
- * Преобразование модели акции в ui-модель акции
+ * Converts a stock model to a UI stock model.
  *
- * @return ui-модель акции
+ * @param isFavorite indicates whether the stock is a favorite.
+ * @return a UI stock model.
  */
-
 fun StockModel.toUi(isFavorite: Boolean = false) =
     StockUi(
         name = name,
@@ -35,16 +35,17 @@ fun StockModel.toUi(isFavorite: Boolean = false) =
     )
 
 /**
- * Преобразование списка моделей акций в список ui-моделей акций
+ * Converts a list of stock models to a list of UI stock models.
  *
- * @return список ui-моделей акций
+ * @param isFavorite indicates whether the stocks are favorites.
+ * @return a list of UI stock models.
  */
 fun List<StockModel>.toUi(isFavorite: Boolean = false) = map { it.toUi(isFavorite) }
 
 /**
- * Преобразование ui-модели акции в модель акции
+ * Converts a UI stock model to a stock model.
  *
- * @return модель акции
+ * @return a stock model.
  */
 fun StockUi.toModel() = StockModel(
     name = name,
@@ -54,9 +55,9 @@ fun StockUi.toModel() = StockModel(
 )
 
 /**
- * Преобразование модели акции в сущность для сохранения в БД
+ * Converts a stock model to a database entity for storage.
  *
- * @return сущность любимой акции для сохранения в БД
+ * @return a favorite stock entity for database storage.
  */
 fun StockModel.toFavoriteEntity() = StockFavoriteEntity(
     name = name,
@@ -68,9 +69,9 @@ fun StockModel.toFavoriteEntity() = StockFavoriteEntity(
 fun List<StockModel>.toFavoriteModel() = map { it.toFavoriteEntity() }
 
 /**
- * Преобразование сущности БД в модель акции
+ * Converts a database entity to a stock model.
  *
- * @return модель акции
+ * @return a stock model.
  */
 fun StockFavoriteEntity.toModel() = StockModel(
     name = name,
@@ -80,21 +81,21 @@ fun StockFavoriteEntity.toModel() = StockModel(
 )
 
 /**
- * Преобразование списка сущностей БД в список моделей акций
+ * Converts a list of database entities to a list of stock models.
  *
- * @return список моделей акций
+ * @return a list of stock models.
  */
 fun List<StockFavoriteEntity>.toModel() = map { it.toModel() }
 
 /**
- * Преобразование цены акции в HEX кодировку цвета
+ * Converts a stock price to a HEX color code.
  *
- * @return HEX кодировка цвета
+ * @return a HEX color code.
  */
 fun getColorIdFromPrice(price: Double): String {
     var number = "$price"
         .filter { it.isDigit() }
-    while(number.length < 7) {
+    while (number.length < 7) {
         number += "5"
     }
     return "#${number.take(6)}"

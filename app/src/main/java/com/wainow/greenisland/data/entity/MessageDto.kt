@@ -1,10 +1,10 @@
 package com.wainow.greenisland.data.entity
 
 /**
- * Сущность для рекламного сообщения с сервера
+ * Entity for a promotional message from the server
  *
- * @property msg сообщение
- * @property url юрл
+ * @property msg the message
+ * @property url the URL
  */
 data class MessageDto(
     val msg: String,

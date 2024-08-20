@@ -10,18 +10,18 @@ import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
 /**
- * Модуль юзкейсов в хилте
+ * Use case module in Hilt
  */
 @Module
 @InstallIn(SingletonComponent::class)
 class UseCaseModule {
 
     /**
-     * Провайдинг юз кейса акций
+     * Provides the stock use case
      *
-     * @param repo репозиторий акций
+     * @param repo the stock repository
      *
-     * @return имплементация юз кейса акций
+     * @return the implementation of the stock use case
      */
     @Provides
     @Singleton

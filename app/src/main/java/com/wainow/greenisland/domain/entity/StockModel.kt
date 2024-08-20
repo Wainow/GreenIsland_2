@@ -1,12 +1,12 @@
 package com.wainow.greenisland.domain.entity
 
 /**
- * Модель акции
+ * Stock model
  *
- * @property name название акции
- * @property value стоимость акции
- * @property date текущая дата
- * @property currency валюта акции
+ * @property name the name of the stock
+ * @property value the value of the stock
+ * @property date the current date
+ * @property currency the currency of the stock
  */
 data class StockModel(
     val name: String,

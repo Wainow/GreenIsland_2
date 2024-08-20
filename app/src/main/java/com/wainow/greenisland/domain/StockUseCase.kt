@@ -7,71 +7,71 @@ import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 /**
- * Интерфейс юз кейса акций
+ * Interface for stock use cases
  */
 interface StockUseCase {
     /**
-     * Получение последнего списка акций
+     * Retrieves the latest list of stocks
      *
-     * @param baseValue валюта акций
+     * @param baseValue the currency of the stocks
      *
-     * @return Флоу списка акций
+     * @return a flow of the list of stocks
      */
     suspend fun getLatestStocks(baseValue: String?): Flow<List<StockModel>>
 
     /**
-     * Сортировка списка акций по названию
+     * Sorts the list of stocks by name
      *
-     * @param baseValue валюта акций
-     * @param isAscending флаг сортировки по возрастанию/убыванию
+     * @param baseValue the currency of the stocks
+     * @param isAscending flag indicating whether to sort in ascending/descending order
      *
-     * @return Флоу списка акций
+     * @return a flow of the sorted list of stocks
      */
     suspend fun sortByName(baseValue: String?, isAscending: Boolean): Flow<List<StockModel>>
 
     /**
-     * Сортировка списка акций по стоимости
+     * Sorts the list of stocks by value
      *
-     * @param baseValue валюта акций
-     * @param isAscending флаг сортировки по возрастанию/убыванию
+     * @param baseValue the currency of the stocks
+     * @param isAscending flag indicating whether to sort in ascending/descending order
      *
-     * @return Флоу списка акций
+     * @return a flow of the sorted list of stocks
      */
     suspend fun sortByValue(baseValue: String?, isAscending: Boolean): Flow<List<StockModel>>
 
     /**
-     * Сохранение любимой акции в БД
+     * Saves a favorite stock to the database
      *
-     * @param stock любимая акция
+     * @param stock the favorite stock
      */
     suspend fun saveFavorite(stock: StockModel)
 
     /**
-     * Получение списка любимых акций из БД
+     * Retrieves the list of favorite stocks from the database
      *
-     * @return список любимых акций
+     * @return the list of favorite stocks
      */
     suspend fun getFavorites(): List<StockModel>
 
     /**
-     * Удаление акции из списка любиых
+     * Removes a stock from the list of favorites
      *
-     * @param stock нелюбимая акция
+     * @param stock the stock to be removed
      */
     suspend fun deleteFavorite(stock: StockModel)
 
     /**
-     * Обновление списка любимых акций
+     * Updates the list of favorite stocks
      *
-     * @param stocks список любимых акций
+     * @param stocks the list of favorite stocks
      */
     suspend fun updateFavorites(stocks: List<StockModel>)
 }
 
 /**
- * Реализация юзкейса акций
+ * Implementation of the stock use case
  *
- * @param repository репозиторий акций
+ * @param repository the stock repository
  */
 class StockUseCaseImpl @Inject constructor(
     private val repository: StockRepository
@@ -98,13 +98,13 @@ class StockUseCaseImpl @Inject constructor(
     override suspend fun getFavorites() = repository.getFavoriteStocks()
 
     /**
-     * Инлайн функция для упрощения синтаксиса сортировки
+     * Inline function to simplify sorting syntax
      *
-     * @param baseValue валюта акций
-     * @param isAscending флаг сортировки по возрастанию/убыванию
-     * @param selector условие сортировки
+     * @param baseValue the currency of the stocks
+     * @param isAscending flag indicating whether to sort in ascending/descending order
+     * @param selector the sorting condition
      *
-     * @return флоу отсортированного списка акций
+     * @return a flow of the sorted list of stocks
      */
     private suspend inline fun <R : Comparable<R>> sortStockBy(
         baseValue: String?,

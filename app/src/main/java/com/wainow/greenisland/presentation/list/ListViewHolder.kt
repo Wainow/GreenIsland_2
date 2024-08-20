@@ -10,10 +10,10 @@ import com.wainow.greenisland.getColorIdFromPrice
 import com.wainow.greenisland.presentation.entity.StockUi
 
 /**
- * Вью холдер для списка акций
+ * ViewHolder for the stock list
  *
- * @param binding биндинг айтема акции
- * @param favoriteClicked колбек клика на звездочку
+ * @param binding Binding for the stock item
+ * @param favoriteClicked Callback for star button clicks
  */
 class ListViewHolder(
     private val binding: StockItemBinding,
@@ -21,9 +21,9 @@ class ListViewHolder(
 ): RecyclerView.ViewHolder(binding.root) {
 
     /**
-     * Функция для связывания вьюшки и сущности акции
+     * Binds the view with the stock entity
      *
-     * @param stock сущность акции
+     * @param stock The stock entity
      */
     fun bind(stock: StockUi) {
         binding.run {
@@ -39,10 +39,10 @@ class ListViewHolder(
     }
 
     /**
-     * Фунция для настройки вьюшки звезды и сущности акции
+     * Configures the star button view with the stock entity
      *
-     * @param star кнопка звездочка
-     * @param stock сущность акции
+     * @param star The star button
+     * @param stock The stock entity
      */
     private fun bindStar(star: ImageButton, stock: StockUi) {
         star.apply {
